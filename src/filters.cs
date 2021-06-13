@@ -4,6 +4,7 @@
 // Copyright (c) 2021 Leopotam <leopotam@gmail.com>
 // -------------------------------------------------------------------------------------
 
+using System;
 using System.Runtime.CompilerServices;
 
 #if ENABLE_IL2CPP
@@ -139,7 +140,6 @@ namespace Leopotam.EcsLite.ExtendedFilters {
             f._exc4 = world.GetPool<TExc4> ();
         }
 
-        //
         public static void Validate<TInc1, TInc2, TInc3> (this ref EcsFilterExt<TInc1, TInc2, TInc3> f, EcsWorld world)
             where TInc1 : struct
             where TInc2 : struct
@@ -215,7 +215,6 @@ namespace Leopotam.EcsLite.ExtendedFilters {
             f._exc4 = world.GetPool<TExc4> ();
         }
 
-        //
         public static void Validate<TInc1, TInc2, TInc3, TInc4> (this ref EcsFilterExt<TInc1, TInc2, TInc3, TInc4> f, EcsWorld world)
             where TInc1 : struct
             where TInc2 : struct
@@ -301,7 +300,6 @@ namespace Leopotam.EcsLite.ExtendedFilters {
             f._exc4 = world.GetPool<TExc4> ();
         }
 
-        //
         public static void Validate<TInc1, TInc2, TInc3, TInc4, TInc5> (this ref EcsFilterExt<TInc1, TInc2, TInc3, TInc4, TInc5> f, EcsWorld world)
             where TInc1 : struct
             where TInc2 : struct
@@ -397,7 +395,6 @@ namespace Leopotam.EcsLite.ExtendedFilters {
             f._exc4 = world.GetPool<TExc4> ();
         }
 
-//
         public static void Validate<TInc1, TInc2, TInc3, TInc4, TInc5, TInc6> (this ref EcsFilterExt<TInc1, TInc2, TInc3, TInc4, TInc5, TInc6> f, EcsWorld world)
             where TInc1 : struct
             where TInc2 : struct
@@ -503,7 +500,6 @@ namespace Leopotam.EcsLite.ExtendedFilters {
             f._exc4 = world.GetPool<TExc4> ();
         }
 
-        //
         public static void Validate<TInc1, TInc2, TInc3, TInc4, TInc5, TInc6, TInc7> (this ref EcsFilterExt<TInc1, TInc2, TInc3, TInc4, TInc5, TInc6, TInc7> f, EcsWorld world)
             where TInc1 : struct
             where TInc2 : struct
@@ -619,7 +615,6 @@ namespace Leopotam.EcsLite.ExtendedFilters {
             f._exc4 = world.GetPool<TExc4> ();
         }
 
-        //
         public static void Validate<TInc1, TInc2, TInc3, TInc4, TInc5, TInc6, TInc7, TInc8> (this ref EcsFilterExt<TInc1, TInc2, TInc3, TInc4, TInc5, TInc6, TInc7, TInc8> f, EcsWorld world)
             where TInc1 : struct
             where TInc2 : struct
@@ -744,7 +739,26 @@ namespace Leopotam.EcsLite.ExtendedFilters {
             f._exc3 = world.GetPool<TExc3> ();
             f._exc4 = world.GetPool<TExc4> ();
         }
+
+        static int[] _filterSortPool = new int[512];
+
+        public static EcsFilter Reorder (this EcsFilter filter, EcsFilterReorderHandler cb) {
+            var count = filter.GetEntitiesCount ();
+            if (count > 1) {
+                var entities = filter.GetRawEntities ();
+                if (_filterSortPool.Length < entities.Length) {
+                    Array.Resize (ref _filterSortPool, entities.Length);
+                }
+                for (int i = 0, iMax = count; i < iMax; i++) {
+                    _filterSortPool[i] = cb (entities[i]);
+                }
+                Array.Sort (_filterSortPool, entities, 0, count);
+            }
+            return filter;
+        }
     }
+
+    public delegate int EcsFilterReorderHandler (int entity);
 
     public struct EcsFilterExt<TInc1>
         where TInc1 : struct {

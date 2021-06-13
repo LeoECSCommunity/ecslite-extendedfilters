@@ -10,9 +10,9 @@ Extended filters for [LeoECS Lite](https://github.com/Leopotam/ecslite).
 * [Installation](#installation)
     * [As unity module](#as-unity-module)
     * [As source](#as-source)
-* [Example](#example)
-    * [Component](#component)
-    * [System](#system)
+* [Examples](#examples)
+    * [Generic-constrained filters](#generic-constrained-filters)
+    * [Custom-ordered filters](#custom-ordered-filters)
 * [License](#license)
 
 # Socials
@@ -33,23 +33,15 @@ By default last released version will be used. If you need trunk / developing ve
 ## As source
 If you can't / don't want to use unity modules, code can be downloaded as sources archive from `Releases` page.
 
-# Example
+# Examples
 
-## Component
-```csharp
-struct C1 {
-    public int Id;
-}
-struct C2 {
-    public int Id;
-}
-struct C3 {
-    public int Id;
-}
-```
-## System
+## Generic-constrained filters
 ```csharp
 class TestSystem : IEcsInitSystem, IEcsRunSystem {
+    struct C1 { }
+    struct C2 { }
+    struct C3 { }
+
     EcsFilterExt<C1> _c1;
     EcsFilterExt<C1, C2> _c1c2;
     EcsFilterExt<C1, C2>.Exc<C3> _c1c2_c3;
@@ -76,6 +68,40 @@ class TestSystem : IEcsInitSystem, IEcsRunSystem {
 }
 ```
 > **Important!** `EcsFilterExt` supports up to 8 include constraints and up to 4 exclude constraints.
+
+## Custom-ordered filters
+```csharp
+sealed class TestSystem : IEcsInitSystem, IEcsRunSystem {
+    struct C1 {
+        public int Value;
+    }
+
+    EcsFilterExt<C1> _filter;
+    EcsFilterReorderHandler _cb;
+
+    public void Init (EcsSystems systems) {
+        var w = systems.GetWorld ();
+        _filter.Validate (w);
+        for (var i = 0; i < 3; i++) {
+            var entity = w.NewEntity ();
+            _filter.Inc1 ().Add (entity).Value = i;
+        }
+        // we want to sort entities based on C1.Value data.
+        _cb = entity => _filter.Inc1 ().Get (entity).Value;
+    }
+
+    public void Run (EcsSystems systems) {
+        // reordering, entities will be resorted.
+        _filter.Filter ().Reorder (_cb);
+        
+        // change entity cost to opposite value for test.
+        foreach (var entity in _filter.Filter ()) {
+            _filter.Inc1 ().Get (entity).Value *= -1;
+        }
+    }
+}
+```
+> **Important!** `EcsFilter.Reorder()` is not thread safe!
 
 # License
 The software is released under the terms of the [MIT license](./LICENSE.md).
