@@ -894,6 +894,9 @@ namespace Leopotam.EcsLite.ExtendedFilters {
 
             [MethodImpl (MethodImplOptions.AggressiveInlining)]
             public EcsPool<TInc1> Inc1 () => _inc1;
+            
+            [MethodImpl (MethodImplOptions.AggressiveInlining)]
+            public EcsPool<TInc2> Inc2 () => _inc2;
 
             [MethodImpl (MethodImplOptions.AggressiveInlining)]
             public EcsPool<TExc1> Exc1 () => _exc1;
