@@ -753,6 +753,10 @@ namespace Leopotam.EcsLite.ExtendedFilters {
                     _filterSortPool[i] = cb (entities[i]);
                 }
                 Array.Sort (_filterSortPool, entities, 0, count);
+                var sparseIndex = filter.GetSparseIndex ();
+                for (int i = 0, iMax = count; i < iMax; i++) {
+                    sparseIndex[entities[i]] = i + 1;
+                }
             }
             return filter;
         }
@@ -894,7 +898,7 @@ namespace Leopotam.EcsLite.ExtendedFilters {
 
             [MethodImpl (MethodImplOptions.AggressiveInlining)]
             public EcsPool<TInc1> Inc1 () => _inc1;
-            
+
             [MethodImpl (MethodImplOptions.AggressiveInlining)]
             public EcsPool<TInc2> Inc2 () => _inc2;
 
