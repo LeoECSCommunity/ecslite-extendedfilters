@@ -1,10 +1,10 @@
 {
-    "name": "com.leopotam.ecslite.extendedfilters",
-    "author": "Leopotam",
-    "displayName": "LeoECS Lite Extended filters",
-    "description": "Extended filters for LeoECS Lite.",
+    "name": "com.leoecscommunity.ecslite.extendedfilters",
+    "author": "LeoECSCommunity",
+    "displayName": "LeoECSCommunity Lite Extended filters",
+    "description": "Extended filters for LeoECSCommunity Lite.",
     "unity": "2020.3",
-    "version": "2021.9.22",
+    "version": "1.0.0",
     "keywords": [
         "leoecslite",
         "leoecs",
@@ -14,6 +14,6 @@
     "dependencies": {},
     "repository": {
         "type": "git",
-        "url": "https://github.com/Leopotam/ecslite-extendedfilters.git"
+        "url": "https://github.com/LeoECSCommunity/ecslite-extendedfilters.git"
     }
 }
