@@ -7,6 +7,7 @@ Extended filters for [LeoECS Lite](https://github.com/LeoECSCommunity/ecslite).
 
 # Table of content
 * [Socials](#socials)
+* [Differences to Leo Red](#differences-to-leo-red)
 * [Installation](#installation)
     * [As unity module](#as-unity-module)
     * [As source](#as-source)
@@ -19,6 +20,14 @@ Extended filters for [LeoECS Lite](https://github.com/LeoECSCommunity/ecslite).
 [![discord](https://img.shields.io/discord/963730852452388894.svg?label=New%20Community%20Discord%20server&style=for-the-badge&logo=discord)](https://discord.gg/ZAhCUv5YQt)
 
 [![discord](https://img.shields.io/discord/404358247621853185.svg?label=Old%20Leo%20Discord%20server&style=for-the-badge&logo=discord)](https://discord.gg/5GZVde6)
+
+# Differences to Leo Red
+This is a community maintained fork of LeoECS from the point at which its license (and some obsolete code) has changed.  
+This fork is **not** maintained by Leopotam.  
+LeoECSCommunity repositories will always be MIT licensed, and will be backwards compatible with the last LeoECS MIT version (for the time being).  
+
+If you have any issues with this fork, please address them here in LeoECSCommunity repositories, or our Discord sever.  
+But we do accept PR's and issues from contributors from Leo Red as well.
 
 # Installation
 
